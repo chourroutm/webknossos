@@ -411,15 +411,31 @@ export function localeCompareBy<T>(
 }
 
 export function stringToNumberArray(s: string): Array<number> {
-  // remove leading/trailing whitespaces
-  s = s.trim();
-  // replace remaining whitespaces with commas
-  s = s.replace(/,?\s+,?/g, ",");
+  // // remove leading/trailing whitespaces
+  // s = s.trim();
+  // // replace remaining whitespaces with commas
+  // s = s.replace(/,?\s+,?/g, ",");
   const stringArray = s.split(",");
   const result = [];
 
-  for (const e of stringArray) {
-    const newEl = Number.parseFloat(e);
+  for (let e of stringArray) {
+    e = e.replace(/\s+/g, "");
+    const regex = /^(\d+(\.\d+)?)([+\-])(\d+(\.\d+)?)$/;
+    const match = e.match(regex);
+    
+    if (match) {
+        const num1 = parseFloat(match[1]);
+        const operator = match[3];
+        const num2 = parseFloat(match[4]);
+
+        switch (operator) {
+            case '+': const newEl = num1 + num2;
+            case '-': const newEl = num1 - num2;
+        }
+    }
+    else {
+       const newEl = Number.parseFloat(e) || Number.NaN;
+    }
 
     if (!Number.isNaN(newEl)) {
       result.push(newEl);
