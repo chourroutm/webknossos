@@ -106,8 +106,8 @@ abstract class BaseVector<T extends number[]> extends React.PureComponent<BasePr
     const text = evt.target.value;
     // only numbers, commas and whitespace is allowed
     const isValidInput = this.props.allowDecimals
-      ? /^[\d\s,.]*$/g.test(text)
-      : /^[\d\s,]*$/g.test(text);
+      ? /^[\d\s,.+-]*$/g.test(text)
+      : /^[\d\s,+-]*$/g.test(text);
     const value = Utils.stringToNumberArray(text);
     const isValidFormat = value.length === this.defaultValue.length;
 
